@@ -1,34 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { Image, Input } from '@chakra-ui/react'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { Polaroid } from './components/Polaroid'
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [userImage, setUserImage] = useState<FileList>()
+	const [polaroidMessage, setPolaroidMessage] = useState<string>('')
+	const [polaroidDate, setPolaroidDate] = useState<string>('')
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+	useEffect(() => {
+		setPolaroidDate(getCurrentDate())
+	}, [])
+
+	useEffect(() => {
+		console.log(userImage)
+	}, [userImage])
+
+	// useEffect(() => {}, [polaroidMessage, polaroidDate])
+
+	const getCurrentDate = () => {
+		let date = new Date()
+		let currentDate = date.toISOString().split('T')[0]
+		return currentDate
+	}
+
+	return (
+		<>
+			<h1>Polaroid Generator</h1>
+
+			<Input
+				variant="unstyled"
+				type="file"
+				accept="image/*"
+				onChange={event => setUserImage(event?.target?.files)}
+			/>
+
+			<Input
+				type="text"
+				placeholder="Cute message for polaroid"
+				value={polaroidMessage}
+				onChange={text => setPolaroidMessage(text.target?.value)}
+			/>
+
+			<Input
+				type="date"
+				value={polaroidDate}
+				onChange={date => {
+					setPolaroidDate(date.target.value)
+					console.log(date.target.value)
+				}}
+			/>
+
+			<section>
+				<h2>Your Polaroid area</h2>
+
+				<Polaroid
+					userImage={userImage}
+					polaroidMessage={polaroidMessage}
+					polaroidDate={polaroidDate}
+				/>
+			</section>
+		</>
+	)
 }
 
 export default App

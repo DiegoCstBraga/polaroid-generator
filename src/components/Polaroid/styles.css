@@ -1,0 +1,29 @@
+* {
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.polaroid-frame {
+  background-color: black;
+  padding: 1rem 1rem 4rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  box-sizing: content-box;
+}
+
+.polaroid-image {
+  width: 3;
+  aspect-ratio: 1;
+  background-color: #f0f0f0;
+}
+
+.polaroid-description {
+  text-align: center;
+
+	font-size: 1.6rem;
+  color: #f0f0f0;
+}
